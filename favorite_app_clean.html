@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日一签 · 倪师心法</title>
+    <style>
+        /* CSS：这里是“装修”部分，定义颜色、字体、动画 */
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif; /* 用有书卷气的衬线字体 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            /* 这就是那个温暖的渐变背景色：从柔粉到浅蓝 */
+            background: linear-gradient(135deg, #f5f0e6, #e6e9f0);
+            color: #4a4a4a;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.6); /* 半透明白色卡片 */
+            backdrop-filter: blur(10px); /* 毛玻璃效果，高级感 */
+            border-radius: 20px;
+            padding: 40px 30px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .quote-text {
+            font-size: 24px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            min-height: 80px;
+        }
+
+        .refresh-button {
+            background: none;
+            border: 1.5px solid #d1cdc7;
+            color: #6b6b6b;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .refresh-button:hover {
+            background: #4a4a4a;
+            color: #ffffff;
+            border-color: #4a4a4a;
+        }
+    </style>
+</head>
+<body>
+    <!-- HTML：这里是“骨架”，定义有什么元素 -->
+    <div class="card">
+        <div class="quote-text" id="quoteDisplay">
+            “健康，是人一生最大的财富。”
+        </div>
+        <button class="refresh-button" onclick="showRandomQuote()">
+            ✦ 换一句心法
+        </button>
+    </div>
+
+    <script>
+        // JavaScript：这里是“开关”，负责“随机换一句”的逻辑
+        // 1. 先准备一个小金库，放上你喜欢的倪师语录（可以随时添加）
+        const quotes = [
+            "“健康，是人一生最大的财富。”",
+            "“内心平静，是养生的最高境界。”",
+            "“简单的相信，持续的努力，时间就会给你答案。”",
+            "“最好的医生，是你身体里的自愈力。”",
+            "“心怀慈悲，是对自己最大的善良。”",
+            "“凡是过去，皆为序章。”",
+            "“真正的强大，不是忘记，而是接纳。”"
+        ];
+
+        function showRandomQuote() {
+            // 2. 随机从金库里选一句话
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const selectedQuote = quotes[randomIndex];
+            
+            // 3. 找到屏幕上展示语录的地方（也就是那个叫quoteDisplay的盒子）
+            const displayElement = document.getElementById("quoteDisplay");
+            
+            // 4. 把选出来的话放进去
+            displayElement.textContent = selectedQuote;
+        }
+    </script>
+</body>
+</html>
