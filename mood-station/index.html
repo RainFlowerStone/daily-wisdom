@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>情绪补给站</title>
+    <style>
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg,#e6dfcc, #f2efe9);
+            color: #4a4a4a;
+        }
+        .container {
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        h1 {
+            text-align: center;
+            font-weight: normal;
+            margin-bottom: 30px;
+        }
+        .input-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        #moodInput {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1.5px solid #d1cdc7;
+            border-radius: 30px;
+            background: transparent;
+            font-family: inherit;
+            font-size: 16px;
+            outline: none;
+        }
+        .save-btn {
+            background: none;
+            border: 1.5px solid #d1cdc7;
+            color: #6b6b6b;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            white-space: nowrap;
+        }
+        .save-btn:hover {
+            background: #4a4a4a;
+            color: #fff;
+            border-color: #4a4a4a;
+        }
+        .mood-list {
+            list-style: none;
+            padding: 0;
+        }
+        .mood-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .mood-list li:last-child {
+            border-bottom: none;
+        }
+        .mood-text {
+            font-style: italic;
+        }
+        .mood-time {
+            font-size: 12px;
+            color: #b0a89a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>地球online今日感受</h1>
+        <div class="input-area">
+            <input type="text" id="moodInput" placeholder="今天感觉如何？">
+            <button class="save-btn" onclick="saveMood()">保存</button>
+        </div>
+        <ul class="mood-list" id="moodList"></ul>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'mood-station-data';
+
+        // 页面加载时，从 localStorage 读取并显示
+        window.onload = function() {
+            displayMoods();
+        };
+
+        function saveMood() {
+            const input = document.getElementById('moodInput');
+            const moodText = input.value.trim();
+            if (moodText === '') return;
+
+            // 获取当前时间
+            const now = new Date();
+            const timeStr = `${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+            // 从 localStorage 取出旧数据，添加新数据
+            let moods = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            moods.unshift({ text: moodText, time: timeStr }); // 新数据插在最前面
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(moods));
+
+            // 清空输入框并刷新列表
+            input.value = '';
+            displayMoods();
+        }
+
+        function displayMoods() {
+            const list = document.getElementById('moodList');
+            const moods = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            list.innerHTML = moods.map(item => `
+                <li>
+                    <span class="mood-text">${item.text}</span>
+                    <span class="mood-time">${item.time}</span>
+                </li>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
